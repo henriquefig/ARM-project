@@ -77,7 +77,7 @@
  * 2015-2016
  *
  * Henrique Figueiredo - 1120401
- * João Brandão - 1120484
+ * Jo√£o Brand√£o - 1120484
  */
  
 
@@ -147,7 +147,7 @@ u8 pontos(unsigned int x)
     return (x*0.021)+15;
 }
 
-/* FunÁ„o para desenhar o titulo, os eixos e a escala do gr·fico a apresentar no LCD do Primer */
+/* Fun√ß√£o para desenhar o titulo, os eixos e a escala do gr√°fico a apresentar no LCD do Primer */
 void LCD_GRAPH()
 {
     LCD_FillRect(0, 0, 127, 127, 0xFFFF);
@@ -162,7 +162,7 @@ void LCD_GRAPH()
     DRAW_DisplayString(1, 95,"30",2);
     DRAW_DisplayString(1, 10,"-30",2);
 }
-/* FunÁ„o para atualizar a legenda do gr·fico
+/* Fun√ß√£o para atualizar a legenda do gr√°fico
    dependendo de qual eixo queremos nele apresentar
 */
 void LCD_UPDATE(char axis)
@@ -186,7 +186,7 @@ void LCD_UPDATE(char axis)
      }
 }
 
-/* ConfiguraÁıes necess·rias do ADC */
+/* Configura√ß√µes necess√°rias do ADC */
 void ADC_CONFIG()
 {
     GPIO_InitTypeDef GPIO_InitStructure;
@@ -213,7 +213,7 @@ void ADC_CONFIG()
         NVIC_InitTypeDef NVIC_InitStructure;
     /* Configura o Priority Group com 1 bit */
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-    /* InterrupÁ„o global do USART2 com prioridade 0 sub-prioridade 2 */
+    /* Interrup√ß√£o global do USART2 com prioridade 0 sub-prioridade 2 */
     NVIC_InitStructure.NVIC_IRQChannel = ADC1_2_IRQChannel; //ADC_IRQChannel
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
@@ -243,13 +243,13 @@ void ADC_CONFIG()
     ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);
 }
 
-/* ConfiguraÁıes necess·rias da USART */
+/* Configura√ß√µes necess√°rias da USART */
 void Usart_config()
 {
     NVIC_InitTypeDef NVIC_InitStructure;
     /* Configura o Priority Group com 1 bit */
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-    /* InterrupÁ„o global do USART2 com prioridade 0 sub-prioridade 2 */
+    /* Interrup√ß√£o global do USART2 com prioridade 0 sub-prioridade 2 */
     NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQChannel;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
@@ -266,13 +266,13 @@ void Usart_config()
     USART_InitStructure.USART_Mode = USART_Mode_Rx;
     USART_Init(USART2, &USART_InitStructure);
     USART_Cmd(USART2, ENABLE);
-    //Enable da interrupÁ„o da USART2
+    //Enable da interrup√ß√£o da USART2
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
     USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 }
 
 
-/* InterrupÁ„o ADC 
+/* Interrup√ß√£o ADC 
 Ocorre quando despoleta o Evento "End Of Conversion".
 */
 void ADC_IRQHandler(void)
@@ -292,8 +292,8 @@ void ADC_IRQHandler(void)
         ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);   
     }
 }
-/* InterrupÁ„o da USART 2 
-Ocorre sempre que È recebido um caracter introduzido
+/* Interrup√ß√£o da USART 2 
+Ocorre sempre que √© recebido um caracter introduzido
 pelo utilizador no teclado do computador.
 */
 void USART2_IRQHandler(void)
@@ -325,7 +325,7 @@ int main( void )
     ADC_CONFIG();
     DRAW_Init();
 
-    /* CriaÁ„o das filas de mensagens para a USART e para o ADC */
+    /* Cria√ß√£o das filas de mensagens para a USART e para o ADC */
     xQueueUSART=xQueueCreate(10,sizeof(char));
     xQueueADC=xQueueCreate(10,sizeof(unsigned int));
 
@@ -361,10 +361,10 @@ static void prvFlashTask( void *pvParameters )
     }
 }
 /* Tarefa do ADC
-- Recebe caracter introduzido pelo utilizador atravÈs da fila de mensagens xQueueUSART
+- Recebe caracter introduzido pelo utilizador atrav√©s da fila de mensagens xQueueUSART
 - Prepara canais para leitura do sensor consoante a escolha do eixo escolhido
 - Efetua a leitura desse canal do ADC1
-- Representa no LCD os valores obtidos do acelerÛmetro 
+- Representa no LCD os valores obtidos do aceler√≥metro 
 */
 static void prvadcTask( void *pvParameters )
 {
@@ -378,7 +378,7 @@ static void prvadcTask( void *pvParameters )
         {
             if(xQueueReceive( xQueueUSART, &carc, ( TickType_t ) 10 ) == pdTRUE )
             {
-                /*VerificaÁ„o de qual caracter foi introduzido pelo utilizador, 
+                /*Verifica√ß√£o de qual caracter foi introduzido pelo utilizador, 
                 recebido pela USART e transmitido na fila de mensagens xQueueUSART.*/
                 if(carc == 'x')
                 {
@@ -430,7 +430,7 @@ static void prvadcTask( void *pvParameters )
         ADC_SoftwareStartConvCmd(ADC1, ENABLE);
     
         /*Recebe-se da fila de mensagens xQueueADC o valor
-        lido pelo ADC atravÈs da vari·vel ad_vbat*/
+        lido pelo ADC atrav√©s da vari√°vel ad_vbat*/
         unsigned int ad_vbat = 0;
         if(xQueueReceive(xQueueADC, &ad_vbat, portMAX_DELAY)==pdTRUE)
         {
@@ -452,7 +452,7 @@ static void prvadcTask( void *pvParameters )
                       LCD_DrawPixel(abcissa,pontos(ad_vbat),0x0000);
                     break;
                 }
-                case 7: //Desenha no LCD os 3 gr·ficos dos 3 eixos em "simultaneo"
+                case 7: //Desenha no LCD os 3 gr√°ficos dos 3 eixos em "simultaneo"
                 {
                     ADC_RegularChannelConfig(ADC1, ADC_Channel_4, 1, ADC_SampleTime_41Cycles5);
                     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
